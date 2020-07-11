@@ -2,6 +2,7 @@ package com.example.apps.myapplication
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -33,10 +34,10 @@ class MainActivity : AppCompatActivity(), OnTaskCompleted {
         pullToRefresh = findViewById(R.id.pullToRefresh)
         errorTextView = findViewById(R.id.error_text)
 
-        syncData()
+        refresh()
 
         pullToRefresh.setOnRefreshListener {
-            syncData()
+            refresh()
         }
     }
 
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity(), OnTaskCompleted {
         }
     }
 
-    private fun syncData() {
+    private fun refresh() {
         sync = Sync(applicationContext, this)
         sync!!.getJson()
 
@@ -68,5 +69,13 @@ class MainActivity : AppCompatActivity(), OnTaskCompleted {
         adapter = CustomAdapter(applicationContext, entries)
         listView.adapter = adapter
 
+    }
+
+    override fun onError() {
+        pullToRefresh.visibility = View.GONE
+
+        errorTextView.visibility = View.VISIBLE
+        errorTextView.bringToFront()
+        errorTextView.text = applicationContext.getString(R.string.network_error)
     }
 }

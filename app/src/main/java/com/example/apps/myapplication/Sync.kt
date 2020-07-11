@@ -45,8 +45,9 @@ class Sync(val context: Context, val listener: OnTaskCompleted) {
                     parseJson(response)
                 },
                 Response.ErrorListener { error ->
-                    // TODO: Handle error
+
                     Log.e(TAG, "getJson: onErrorResponse: network not available" + error.message)
+                    listener.onError()
                 }
             )
             // Add the request to the RequestQueue.
