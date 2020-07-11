@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="network_error">Unable to connect to REST API</string>
+    <string name="refresh">refresh</string>
 </resources>

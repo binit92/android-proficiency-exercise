@@ -2,6 +2,8 @@ package com.example.apps.myapplication
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.ListView
 import android.widget.TextView
@@ -12,6 +14,7 @@ class MainActivity : AppCompatActivity(), OnTaskCompleted {
 
     private val TAG = MainActivity::class::simpleName.toString()
     private var sync: Sync? = null
+
     private lateinit var entries: ArrayList<Sync.Entry>
 
     // TODO: see ButterKnife binding later.. it is throwing some error.
@@ -56,7 +59,12 @@ class MainActivity : AppCompatActivity(), OnTaskCompleted {
 
     }
 
+
     override fun onTaskCompleted() {
+
+        errorTextView.visibility = View.GONE
+        pullToRefresh.visibility = View.VISIBLE
+
         Log.i(TAG, "onTaskCompleted: fact title " + sync!!.facts.factTitle)
         val factTitle: String? = sync!!.facts.factTitle
         if (factTitle != null) {
@@ -77,5 +85,18 @@ class MainActivity : AppCompatActivity(), OnTaskCompleted {
         errorTextView.visibility = View.VISIBLE
         errorTextView.bringToFront()
         errorTextView.text = applicationContext.getString(R.string.network_error)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.actionbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_refresh -> {
+            refresh()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 }
