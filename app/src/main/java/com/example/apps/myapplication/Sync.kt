@@ -16,7 +16,7 @@ import org.json.JSONObject
 
 class Sync(val context: Context, val listener: OnTaskCompleted) {
 
-    private val TAG = "Sync"
+    private val TAG = Sync::class::simpleName.toString()
     private val REST_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
 
     companion object
@@ -46,7 +46,7 @@ class Sync(val context: Context, val listener: OnTaskCompleted) {
                 },
                 Response.ErrorListener { error ->
                     // TODO: Handle error
-                    Log.e(TAG, "getJson: onErrorResponse: network not available")
+                    Log.e(TAG, "getJson: onErrorResponse: network not available" + error.message)
                 }
             )
             // Add the request to the RequestQueue.
