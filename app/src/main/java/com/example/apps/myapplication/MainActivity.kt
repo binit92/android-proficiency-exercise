@@ -35,7 +35,18 @@ class MainActivity : AppCompatActivity(), OnTaskCompleted {
 
         syncData()
 
-        pullToRefresh.setOnRefreshListener { syncData() }
+        pullToRefresh.setOnRefreshListener {
+            syncData()
+        }
+    }
+
+    private fun setActionBar(factTitle: String) {
+        try {
+            supportActionBar?.title = factTitle
+
+        } catch (np: NullPointerException) {
+            Log.e(TAG, "setActionBar: error setting title in actionbar")
+        }
     }
 
     private fun syncData() {
@@ -46,9 +57,13 @@ class MainActivity : AppCompatActivity(), OnTaskCompleted {
 
     override fun onTaskCompleted() {
         Log.i(TAG, "onTaskCompleted: fact title " + sync!!.facts.factTitle)
+        val factTitle: String? = sync!!.facts.factTitle
+        if (factTitle != null) {
+            setActionBar(factTitle)
+        }
+
         Log.i(TAG, "onTaskCompleted: number of entries: " + (sync!!.facts.entries?.size ?: 0))
         entries = sync!!.facts.entries!!
-        //val entries: ArrayList<Sync.Entry>? = sync!!.facts.entries
 
         adapter = CustomAdapter(applicationContext, entries)
         listView.adapter = adapter
