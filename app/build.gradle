@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.marimba.apps.myapplication"
+        applicationId "com.example.apps.myapplication"
         minSdkVersion 25
         targetSdkVersion 29
         versionCode 1
